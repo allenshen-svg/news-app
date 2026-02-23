@@ -47,12 +47,18 @@ body { font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica N
 .header-btn .dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 2s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-/* ---- Categories ---- */
+/* ---- Source Group Tabs ---- */
 .cat-bar { display:flex; gap:6px; padding:10px 16px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
 .cat-bar::-webkit-scrollbar { display:none; }
 .cat-chip { white-space:nowrap; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; background:var(--card); border:1px solid var(--border); color:var(--sub); cursor:pointer; transition:all 0.2s; flex-shrink:0; }
 .cat-chip.active { background:var(--accent); color:white; border-color:var(--accent); box-shadow:0 2px 12px rgba(108,92,231,0.4); }
 .cat-chip .count { font-size:10px; opacity:0.7; margin-left:4px; }
+.cat-chip[data-cat='cn'] { --chip-color: #ff6b6b; }
+.cat-chip[data-cat='cn'].active { background:linear-gradient(135deg, #ff6b6b, #ff4757); border-color:#ff4757; }
+.cat-chip[data-cat='finance'].active { background:linear-gradient(135deg, #ffa502, #ff6348); border-color:#ff6348; }
+.cat-chip[data-cat='world'].active { background:linear-gradient(135deg, #1e90ff, #5352ed); border-color:#5352ed; }
+.cat-chip[data-cat='tech'].active { background:linear-gradient(135deg, #f368e0, #a29bfe); border-color:#a29bfe; }
+.cat-chip[data-cat='discover'].active { background:linear-gradient(135deg, #2ed573, #1e90ff); border-color:#1e90ff; }
 
 /* ---- Breaking Banner ---- */
 .breaking { margin:10px 16px; padding:10px 14px; background:linear-gradient(135deg, rgba(255,107,107,0.15), rgba(255,165,2,0.15)); border:1px solid rgba(255,107,107,0.3); border-radius:12px; display:none; }
@@ -100,12 +106,6 @@ body { font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica N
 .news-card.has-image .news-inner { display:grid; grid-template-columns:1fr 90px; gap:10px; }
 .news-image { width:90px; height:70px; border-radius:8px; object-fit:cover; align-self:start; }
 .news-card.has-image .news-bottom { margin-top:8px; }
-
-/* ---- Region Filters ---- */
-.region-bar { display:flex; gap:6px; padding:4px 16px 8px; overflow-x:auto; scrollbar-width:none; }
-.region-bar::-webkit-scrollbar { display:none; }
-.region-chip { white-space:nowrap; padding:4px 10px; border-radius:16px; font-size:10px; font-weight:600; background:transparent; border:1px solid var(--border); color:var(--sub); cursor:pointer; transition:all 0.2s; flex-shrink:0; }
-.region-chip.active { background:rgba(108,92,231,0.2); color:var(--accent2); border-color:var(--accent); }
 
 /* ---- Stats Bar ---- */
 .stats-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:8px 16px; }
@@ -324,25 +324,16 @@ body { font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica N
   </div>
 </div>
 
-<!-- Category Bar -->
+<!-- Source Group Filter Bar -->
 <div class="cat-bar" id="cat-bar">
   <div class="cat-chip active" data-cat="all" onclick="filterCategory('all')">🔥 全部</div>
-  <div class="cat-chip" data-cat="国际" onclick="filterCategory('国际')">🌍 国际</div>
-  <div class="cat-chip" data-cat="财经" onclick="filterCategory('财经')">💹 财经</div>
-  <div class="cat-chip" data-cat="政治" onclick="filterCategory('政治')">🏛️ 政治</div>
-  <div class="cat-chip" data-cat="科技" onclick="filterCategory('科技')">🚀 科技</div>
-  <div class="cat-chip" data-cat="时事" onclick="filterCategory('时事')">📰 时事</div>
-</div>
-
-<!-- Region Bar -->
-<div class="region-bar" id="region-bar">
-  <div class="region-chip active" data-region="all" onclick="filterRegion('all')">🌐 全球</div>
-  <div class="region-chip" data-region="中国" onclick="filterRegion('中国')">🇨🇳 中国</div>
-  <div class="region-chip" data-region="美国" onclick="filterRegion('美国')">🇺🇸 美国</div>
-  <div class="region-chip" data-region="欧洲" onclick="filterRegion('欧洲')">🇪🇺 欧洲</div>
-  <div class="region-chip" data-region="亚太" onclick="filterRegion('亚太')">🌏 亚太</div>
-  <div class="region-chip" data-region="中东" onclick="filterRegion('中东')">🕌 中东</div>
-  <div class="region-chip" data-region="俄罗斯" onclick="filterRegion('俄罗斯')">🇷🇺 俄罗斯</div>
+  <div class="cat-chip" data-cat="cn" onclick="filterCategory('cn')">📱 国内热搜</div>
+  <div class="cat-chip" data-cat="finance" onclick="filterCategory('finance')">💹 财经</div>
+  <div class="cat-chip" data-cat="world" onclick="filterCategory('world')">🌍 外媒</div>
+  <div class="cat-chip" data-cat="tech" onclick="filterCategory('tech')">🚀 科技</div>
+  <div class="cat-chip" data-cat="discover" onclick="filterCategory('discover')">🔬 发现</div>
+  <div class="cat-chip" data-cat="zh" onclick="filterCategory('zh')">🇨🇳 中文</div>
+  <div class="cat-chip" data-cat="en" onclick="filterCategory('en')">🌐 English</div>
 </div>
 
 <!-- Breaking News Banner -->
@@ -757,16 +748,20 @@ async function manualTranslate(){
   await autoTranslateNews();
 }
 
+// ==================== SOURCE GROUP DEFINITIONS ====================
+const SOURCE_GROUPS = {
+  cn: ['抖音热搜', '小红书热门', '今日头条', '新浪财经'],
+  finance: ['新浪财经', 'Bloomberg', 'CNBC Top', 'WSJ Markets', 'FT World', '36氪快讯'],
+  world: ['BBC World', 'BBC Politics', 'BBC中文', 'Al Jazeera', 'The Guardian World', 'NPR World', 'DW德国之声', '韩联社中文', '纽约时报中文'],
+  tech: ['TechCrunch', '36氪快讯'],
+  discover: ['🔬 热点发现'],
+};
+
 // ==================== FILTERS ====================
 function filterCategory(cat){
   currentCategory = cat;
+  currentRegion = 'all';  // reset region when switching source group
   document.querySelectorAll('.cat-chip').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
-  applyFilters();
-}
-
-function filterRegion(region){
-  currentRegion = region;
-  document.querySelectorAll('.region-chip').forEach(c => c.classList.toggle('active', c.dataset.region === region));
   applyFilters();
 }
 
@@ -779,7 +774,17 @@ function applyFilters(){
   const settings = getSettings();
   
   filteredNews = allNews.filter(n => {
-    if(currentCategory !== 'all' && n.category !== currentCategory) return false;
+    // Source group filter
+    if(currentCategory !== 'all') {
+      if(currentCategory === 'zh') {
+        if(n.lang !== 'zh' && n.lang !== 'zh-translated') return false;
+      } else if(currentCategory === 'en') {
+        if(n.lang !== 'en') return false;
+      } else {
+        const groupSources = SOURCE_GROUPS[currentCategory];
+        if(groupSources && !groupSources.includes(n.source)) return false;
+      }
+    }
     if(currentRegion !== 'all' && !(n.regions||[]).includes(currentRegion)) return false;
     if(searchQuery && !n.title.toLowerCase().includes(searchQuery) && 
        !(n.summary||'').toLowerCase().includes(searchQuery)) return false;
@@ -791,9 +796,15 @@ function applyFilters(){
 }
 
 function updateCategoryCounts(){
-  const counts = { all: allNews.length };
+  const counts = { all: allNews.length, zh: 0, en: 0 };
+  // Count by source group
+  Object.keys(SOURCE_GROUPS).forEach(g => counts[g] = 0);
   allNews.forEach(n => {
-    counts[n.category] = (counts[n.category] || 0) + 1;
+    if(n.lang === 'zh' || n.lang === 'zh-translated') counts.zh++;
+    if(n.lang === 'en') counts.en++;
+    Object.entries(SOURCE_GROUPS).forEach(([group, sources]) => {
+      if(sources.includes(n.source)) counts[group]++;
+    });
   });
   
   document.querySelectorAll('.cat-chip').forEach(chip => {
@@ -1146,7 +1157,6 @@ function switchView(view){
   
   // Hide filters when not on news view
   document.getElementById('cat-bar').style.display = view === 'news' ? 'flex' : 'none';
-  document.getElementById('region-bar').style.display = view === 'news' ? 'flex' : 'none';
   document.getElementById('stats-bar').style.display = view === 'news' ? 'grid' : 'none';
   document.querySelector('.search-bar').style.display = view === 'news' ? 'block' : 'none';
   document.getElementById('hot-section').style.display = view === 'news' ? 'block' : 'none';
