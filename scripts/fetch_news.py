@@ -17,7 +17,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # ==================== 配置 ====================
 DATA_DIR = Path(__file__).parent.parent / "data"
 OUTPUT_FILE = DATA_DIR / "news.json"
-MAX_NEWS = 200  # 最多保留条数
+MAX_NEWS = 300  # 最多保留条数
 
 # RSS 源配置
 RSS_SOURCES = [
@@ -287,6 +287,131 @@ def detect_region(title, summary, source_name):
     
     return regions if regions else ['其他']
 
+# ==================== 翻译 (SiliconFlow/DeepSeek AI) ====================
+
+TRANSLATE_API_URL = os.environ.get('TRANSLATE_API_URL', 'https://api.siliconflow.cn/v1/chat/completions')
+TRANSLATE_API_KEY = os.environ.get('TRANSLATE_API_KEY', '')
+TRANSLATE_MODEL = os.environ.get('TRANSLATE_MODEL', 'deepseek-ai/DeepSeek-V3')
+
+def ai_translate_batch(texts, batch_size=20):
+    """用AI大模型批量翻译英文为中文"""
+    import requests as req
+    
+    if not TRANSLATE_API_KEY:
+        print("  ⚠️ 未设置 TRANSLATE_API_KEY 环境变量，跳过翻译")
+        return texts
+    
+    results = list(texts)  # copy
+    
+    # 筛选出需要翻译的
+    to_translate = []
+    for i, t in enumerate(texts):
+        if not t or not t.strip():
+            continue
+        cn_chars = len(re.findall(r'[\u4e00-\u9fff]', t))
+        if cn_chars > len(t) * 0.3:
+            continue  # 已经是中文
+        to_translate.append((i, t[:300]))
+    
+    if not to_translate:
+        return results
+    
+    # 分批翻译
+    for batch_start in range(0, len(to_translate), batch_size):
+        batch = to_translate[batch_start:batch_start + batch_size]
+        
+        # 构建prompt：编号列表方便解析
+        lines = []
+        for j, (idx, text) in enumerate(batch):
+            lines.append(f"{j+1}. {text}")
+        prompt_text = "\n".join(lines)
+        
+        system_prompt = """你是一个专业的新闻翻译器。将以下编号的英文新闻标题/摘要翻译成简洁流畅的中文。
+规则：
+1. 保持编号格式，每行一条
+2. 只输出翻译结果，不加解释
+3. 人名/地名用通用中文译名
+4. 保持新闻标题的简洁风格
+5. 专业术语用常见中文表达"""
+        
+        try:
+            resp = req.post(TRANSLATE_API_URL, 
+                headers={
+                    'Content-Type': 'application/json',
+                    'Authorization': f'Bearer {TRANSLATE_API_KEY}'
+                },
+                json={
+                    'model': TRANSLATE_MODEL,
+                    'messages': [
+                        {'role': 'system', 'content': system_prompt},
+                        {'role': 'user', 'content': prompt_text}
+                    ],
+                    'max_tokens': 2000,
+                    'temperature': 0.3
+                },
+                timeout=30
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            reply = data.get('choices', [{}])[0].get('message', {}).get('content', '')
+            
+            # 解析翻译结果
+            translated_lines = reply.strip().split('\n')
+            for line in translated_lines:
+                line = line.strip()
+                if not line:
+                    continue
+                # 匹配 "1. 翻译内容" 或 "1、翻译内容" 或 "1.翻译内容"
+                m = re.match(r'^(\d+)\s*[.、．]\s*(.+)', line)
+                if m:
+                    num = int(m.group(1)) - 1
+                    translated = m.group(2).strip()
+                    if 0 <= num < len(batch):
+                        orig_idx = batch[num][0]
+                        results[orig_idx] = translated
+            
+        except Exception as e:
+            print(f"  ⚠️ 翻译批次失败: {str(e)[:60]}")
+        
+        # 避免API限流
+        if batch_start + batch_size < len(to_translate):
+            time.sleep(1)
+    
+    return results
+
+def translate_items(items):
+    """翻译所有英文新闻的标题和摘要"""
+    en_items = [(i, item) for i, item in enumerate(items) if item.get('lang') == 'en']
+    if not en_items:
+        return items
+    
+    if not TRANSLATE_API_KEY:
+        print(f"\n⚠️ 跳过翻译（未设置 TRANSLATE_API_KEY）")
+        print(f"   用法: TRANSLATE_API_KEY=sk-xxx python3 scripts/fetch_news.py")
+        return items
+    
+    print(f"\n🌐 翻译 {len(en_items)} 条英文新闻 (使用 {TRANSLATE_MODEL})...")
+    
+    titles = [item['title'] for _, item in en_items]
+    summaries = [item.get('summary', '') for _, item in en_items]
+    
+    translated_titles = ai_translate_batch(titles, batch_size=25)
+    translated_summaries = ai_translate_batch(summaries, batch_size=15)
+    
+    success = 0
+    for j, (i, item) in enumerate(en_items):
+        if translated_titles[j] and translated_titles[j] != item['title']:
+            items[i]['title_original'] = item['title']
+            items[i]['title'] = translated_titles[j]
+            success += 1
+        if translated_summaries[j] and translated_summaries[j] != item.get('summary', ''):
+            items[i]['summary_original'] = item.get('summary', '')
+            items[i]['summary'] = translated_summaries[j]
+        items[i]['lang'] = 'zh-translated'
+    
+    print(f"  ✅ 成功翻译 {success}/{len(en_items)} 条标题")
+    return items
+
 # ==================== RSS 抓取 ====================
 
 def fetch_sina_finance(source, resp):
@@ -322,6 +447,281 @@ def fetch_sina_finance(source, resp):
     except Exception as e:
         print(f"  ❌ {source['name']}: {str(e)[:80]}")
     return items
+
+# ==================== 国内热搜平台抓取 ====================
+
+def fetch_douyin_hot():
+    """抓取抖音热搜榜"""
+    import requests as req
+    items = []
+    name = '抖音热搜'
+    icon = '🎵'
+    try:
+        r = req.get('https://www.douyin.com/aweme/v1/web/hot/search/list/',
+            headers={
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Referer': 'https://www.douyin.com/'
+            }, timeout=15)
+        r.raise_for_status()
+        data = r.json()
+        word_list = data.get('data', {}).get('word_list', [])
+        
+        for entry in word_list[:30]:
+            title = entry.get('word', '').strip()
+            if not title:
+                continue
+            hot_value = entry.get('hot_value', 0)
+            event_time = entry.get('event_time', 0)
+            
+            # 根据热度判断重要性
+            importance = 3
+            if hot_value > 10000000:
+                importance = 5
+            elif hot_value > 5000000:
+                importance = 4
+            
+            pub_date = datetime.fromtimestamp(event_time, tz=timezone.utc).isoformat() if event_time else datetime.now(timezone.utc).isoformat()
+            
+            # 智能分类
+            category = auto_classify_cn(title)
+            
+            items.append({
+                'id': make_id(title, name),
+                'title': title,
+                'summary': f'🔥 热度: {hot_value:,}',
+                'link': f'https://www.douyin.com/search/{title}',
+                'source': name,
+                'source_icon': icon,
+                'category': category,
+                'lang': 'zh',
+                'image': '',
+                'pub_date': pub_date,
+                'fetch_time': datetime.now(timezone.utc).isoformat(),
+                'importance': importance,
+                'regions': detect_region(title, '', name),
+                'priority': 1,
+                'hot_value': hot_value,
+            })
+        print(f"  ✅ {name}: {len(items)} 条")
+    except Exception as e:
+        print(f"  ❌ {name}: {str(e)[:80]}")
+    return items
+
+def fetch_toutiao_hot():
+    """抓取今日头条热榜"""
+    import requests as req
+    items = []
+    name = '今日头条'
+    icon = '📱'
+    try:
+        r = req.get('https://www.toutiao.com/hot-event/hot-board/?origin=toutiao_pc',
+            headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'},
+            timeout=15)
+        r.raise_for_status()
+        data = r.json()
+        entries = data.get('data', [])
+        
+        for i, entry in enumerate(entries[:30]):
+            title = entry.get('Title', '').strip()
+            if not title:
+                continue
+            hot_value = entry.get('HotValue', 0)
+            try:
+                hot_value = int(hot_value)
+            except (ValueError, TypeError):
+                hot_value = 0
+            url = entry.get('Url', '')
+            label = entry.get('Label', '')
+            
+            importance = 3
+            if label == 'hot' or hot_value > 10000000:
+                importance = 4
+            if label == 'boom' or hot_value > 20000000:
+                importance = 5
+            if i < 3:
+                importance = max(importance, 4)
+            
+            category = auto_classify_cn(title)
+            
+            items.append({
+                'id': make_id(title, name),
+                'title': title,
+                'summary': f'🔥 热度: {hot_value:,}' + (f' · {label}' if label else ''),
+                'link': url,
+                'source': name,
+                'source_icon': icon,
+                'category': category,
+                'lang': 'zh',
+                'image': '',
+                'pub_date': datetime.now(timezone.utc).isoformat(),
+                'fetch_time': datetime.now(timezone.utc).isoformat(),
+                'importance': importance,
+                'regions': detect_region(title, '', name),
+                'priority': 1,
+                'hot_value': hot_value,
+            })
+        print(f"  ✅ {name}: {len(items)} 条")
+    except Exception as e:
+        print(f"  ❌ {name}: {str(e)[:80]}")
+    return items
+
+def fetch_36kr_newsflash():
+    """抓取36氪快讯（财经科技）"""
+    import requests as req
+    items = []
+    name = '36氪快讯'
+    icon = '💼'
+    try:
+        r = req.get('https://36kr.com/newsflashes',
+            headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'},
+            timeout=15)
+        r.raise_for_status()
+        
+        m = re.search(r'window\.initialState\s*=\s*({.+?})\s*</script>', r.text, re.DOTALL)
+        if not m:
+            print(f"  ❌ {name}: 无法解析页面数据")
+            return items
+        
+        raw = m.group(1)
+        data = json.loads(raw)
+        flash_list = data.get('newsflashCatalogData', {}).get('data', {}).get('newsflashList', {}).get('data', {}).get('itemList', [])
+        
+        for entry in flash_list[:20]:
+            mat = entry.get('templateMaterial', {})
+            title = mat.get('widgetTitle', '').strip()
+            if not title:
+                continue
+            summary = clean_html(mat.get('widgetContent', ''))[:300]
+            pub_time = mat.get('publishTime', 0)
+            item_id = mat.get('itemId', '')
+            
+            pub_date = datetime.fromtimestamp(pub_time / 1000, tz=timezone.utc).isoformat() if pub_time > 1000000000 else datetime.now(timezone.utc).isoformat()
+            
+            # 36氪主要是财经科技
+            category = auto_classify_cn(title + ' ' + summary)
+            if category == '时事':
+                category = '财经'  # 36氪偏向财经
+            
+            items.append({
+                'id': make_id(title, name),
+                'title': title,
+                'summary': summary,
+                'link': f'https://36kr.com/newsflashes/{item_id}' if item_id else '',
+                'source': name,
+                'source_icon': icon,
+                'category': category,
+                'lang': 'zh',
+                'image': '',
+                'pub_date': pub_date,
+                'fetch_time': datetime.now(timezone.utc).isoformat(),
+                'importance': classify_importance(title, summary),
+                'regions': detect_region(title, summary, name),
+                'priority': 1,
+            })
+        print(f"  ✅ {name}: {len(items)} 条")
+    except Exception as e:
+        print(f"  ❌ {name}: {str(e)[:80]}")
+    return items
+
+def fetch_xiaohongshu_explore():
+    """抓取小红书探索热门内容"""
+    import requests as req
+    items = []
+    name = '小红书热门'
+    icon = '📕'
+    try:
+        r = req.get('https://www.xiaohongshu.com/explore',
+            headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'},
+            timeout=15)
+        r.raise_for_status()
+        
+        m = re.search(r'window\.__INITIAL_STATE__\s*=\s*(.+?)</script>', r.text, re.DOTALL)
+        if not m:
+            print(f"  ❌ {name}: 无法解析页面数据")
+            return items
+        
+        raw = m.group(1).strip().rstrip(';').replace('undefined', 'null')
+        data = json.loads(raw)
+        feeds = data.get('feed', {}).get('feeds', [])
+        
+        for entry in feeds[:20]:
+            nc = entry.get('noteCard', entry)
+            title = nc.get('displayTitle', '').strip()
+            if not title:
+                continue
+            
+            user = nc.get('user', {}).get('nickname', '')
+            likes = nc.get('interactInfo', {}).get('likedCount', '')
+            note_type = nc.get('type', 'normal')
+            note_id = entry.get('id', '')
+            
+            category = auto_classify_cn(title)
+            
+            # 根据点赞估算重要性
+            importance = 3
+            try:
+                like_num = int(str(likes).replace('万', '0000').replace('.', ''))
+                if like_num > 50000:
+                    importance = 5
+                elif like_num > 10000:
+                    importance = 4
+            except:
+                pass
+            
+            items.append({
+                'id': make_id(title, name),
+                'title': title,
+                'summary': f'👤 {user} · ❤️ {likes}' + (f' · 🎬 视频' if note_type == 'video' else ''),
+                'link': f'https://www.xiaohongshu.com/explore/{note_id}' if note_id else '',
+                'source': name,
+                'source_icon': icon,
+                'category': category,
+                'lang': 'zh',
+                'image': '',
+                'pub_date': datetime.now(timezone.utc).isoformat(),
+                'fetch_time': datetime.now(timezone.utc).isoformat(),
+                'importance': importance,
+                'regions': detect_region(title, '', name),
+                'priority': 2,
+            })
+        print(f"  ✅ {name}: {len(items)} 条")
+    except Exception as e:
+        print(f"  ❌ {name}: {str(e)[:80]}")
+    return items
+
+def auto_classify_cn(text):
+    """中文内容智能分类"""
+    finance_kw = ['股', '基金', '理财', '投资', '财经', '上市', '涨停', '跌停', '市值', 
+                  'A股', '港股', '美股', '债券', '期货', '外汇', '央行', '利率', '通胀',
+                  'GDP', '经济', '金融', '银行', '保险', '证券', '融资', '资本', '估值',
+                  '营收', '利润', '回购', '分红', '减持', '增持', '收购', '并购', '上涨',
+                  '下跌', '牛市', '熊市', '交易', '资金', '指数', '板块', '概念股', '市场',
+                  '消费', '零售', '出口', '进口', '税', '油价', '金价', '比特币', '数字货币']
+    politics_kw = ['政治', '政府', '国务院', '全国人大', '政协', '两会', '总书记', '主席',
+                   '总统', '选举', '外交', '制裁', '条约', '法案', '立法', '法院', '政策',
+                   '改革', '一带一路', '台湾', '南海', '国防', '军事', '部队']
+    tech_kw = ['AI', '人工智能', '芯片', '半导体', '5G', '6G', '机器人', '自动驾驶',
+               '大模型', '算法', 'ChatGPT', '量子', '航天', '火箭', '卫星', '科技',
+               '互联网', '手机', '苹果', '华为', '特斯拉', '新能源', '电池', '光伏',
+               '生物', '医药', '疫苗', '基因', 'Kimi', 'DeepSeek', '千问']
+    intl_kw = ['美国', '俄罗斯', '欧洲', '日本', '韩国', '朝鲜', '中东', '以色列',
+               '乌克兰', '北约', '联合国', '国际', '全球', '海外', '出海']
+    
+    for kw in finance_kw:
+        if kw in text:
+            return '财经'
+    for kw in politics_kw:
+        if kw in text:
+            return '政治'
+    for kw in tech_kw:
+        if kw in text:
+            return '科技'
+    for kw in intl_kw:
+        if kw in text:
+            return '国际'
+    return '时事'
+
+# ==================== RSS 抓取 ====================
 
 def fetch_single_rss(source):
     """抓取单个RSS源"""
@@ -397,14 +797,27 @@ def fetch_single_rss(source):
     return items
 
 def fetch_all_news():
-    """并发抓取所有RSS源"""
+    """并发抓取所有RSS源 + 国内热搜平台"""
+    cn_fetchers = [
+        ('抖音热搜', fetch_douyin_hot),
+        ('今日头条', fetch_toutiao_hot),
+        ('36氪快讯', fetch_36kr_newsflash),
+        ('小红书热门', fetch_xiaohongshu_explore),
+    ]
+    total_sources = len(RSS_SOURCES) + len(cn_fetchers)
+    
     print(f"\n🌐 开始抓取全球新闻 [{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]")
-    print(f"   共 {len(RSS_SOURCES)} 个源\n")
+    print(f"   共 {total_sources} 个源 ({len(RSS_SOURCES)} RSS + {len(cn_fetchers)} 国内热搜)\n")
     
     all_items = []
     
     with ThreadPoolExecutor(max_workers=8) as executor:
-        futures = {executor.submit(fetch_single_rss, src): src for src in RSS_SOURCES}
+        # RSS sources
+        futures = {executor.submit(fetch_single_rss, src): src['name'] for src in RSS_SOURCES}
+        # 国内热搜平台
+        for name, func in cn_fetchers:
+            futures[executor.submit(func)] = name
+        
         for future in as_completed(futures):
             items = future.result()
             all_items.extend(items)
@@ -432,6 +845,9 @@ def fetch_all_news():
     
     unique_items.sort(key=sort_key)
     unique_items = unique_items[:MAX_NEWS]
+    
+    # 翻译英文新闻
+    unique_items = translate_items(unique_items)
     
     print(f"\n📊 汇总: 抓取 {len(all_items)} 条, 去重后 {len(unique_items)} 条")
     
@@ -486,9 +902,22 @@ def save_news(items):
 
 if __name__ == '__main__':
     import argparse
+    import sys
     parser = argparse.ArgumentParser(description='全球时事新闻聚合器')
     parser.add_argument('--loop', type=int, default=0, help='循环抓取间隔(分钟), 0=只执行一次')
+    parser.add_argument('--api-key', type=str, default='', help='AI API Key (用于翻译英文新闻)')
+    parser.add_argument('--api-url', type=str, default='', help='AI API URL')
+    parser.add_argument('--model', type=str, default='', help='AI模型名称')
     args = parser.parse_args()
+    
+    # 设置翻译API
+    _mod = sys.modules[__name__]
+    if args.api_key:
+        _mod.TRANSLATE_API_KEY = args.api_key
+    if args.api_url:
+        _mod.TRANSLATE_API_URL = args.api_url
+    if args.model:
+        _mod.TRANSLATE_MODEL = args.model
     
     # 安装依赖
     try:

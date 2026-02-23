@@ -210,6 +210,7 @@ body { font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica N
       <div class="header-meta" id="header-meta">时事政经新闻聚合 · 加载中...</div>
     </div>
     <div class="header-actions">
+      <button class="header-btn" onclick="manualTranslate()">🌐 翻译</button>
       <button class="header-btn" id="btn-refresh" onclick="refreshNews()">
         <span class="dot"></span> 刷新
       </button>
@@ -366,6 +367,9 @@ let lastUpdateTime = null;
 
 const SETTINGS_KEY = 'news_app_settings';
 const AI_CONFIG_KEY = 'news_app_ai_config';
+const TRANSLATE_CACHE_KEY = 'news_app_translations';
+let isTranslating = false;
+let translateProgress = { done: 0, total: 0 };
 
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', () => {
@@ -428,6 +432,9 @@ async function loadNews(){
     
     document.getElementById('loading').style.display = 'none';
     
+    // 自动翻译英文新闻
+    autoTranslateNews();
+    
   } catch(e){
     console.error('Load failed:', e);
     document.getElementById('loading').style.display = 'none';
@@ -439,6 +446,175 @@ async function refreshNews(){
   showToast('🔄 刷新中...');
   await loadNews();
   showToast('✅ 已刷新');
+}
+
+// ==================== TRANSLATION ====================
+function getTranslateCache(){
+  try { return JSON.parse(localStorage.getItem(TRANSLATE_CACHE_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+function saveTranslateCache(cache){
+  try { localStorage.setItem(TRANSLATE_CACHE_KEY, JSON.stringify(cache)); } catch(e) {}
+}
+
+async function autoTranslateNews(){
+  const cfg = getAIConfig();
+  if(!cfg.apiKey || !cfg.apiUrl) return;
+  
+  const cache = getTranslateCache();
+  const enItems = allNews.filter(n => n.lang === 'en' && !cache[n.id]);
+  if(enItems.length === 0){
+    // Apply cached translations
+    applyCachedTranslations();
+    return;
+  }
+  
+  // Apply any existing cache first
+  applyCachedTranslations();
+  
+  // Then translate remaining
+  isTranslating = true;
+  translateProgress = { done: 0, total: enItems.length };
+  showTranslateStatus();
+  
+  const batchSize = 20;
+  for(let i = 0; i < enItems.length; i += batchSize){
+    const batch = enItems.slice(i, i + batchSize);
+    try {
+      await translateBatch(batch, cfg, cache);
+    } catch(e){
+      console.error('Translation batch failed:', e);
+    }
+    translateProgress.done = Math.min(i + batchSize, enItems.length);
+    showTranslateStatus();
+  }
+  
+  saveTranslateCache(cache);
+  applyCachedTranslations();
+  applyFilters();
+  
+  isTranslating = false;
+  showToast(`✅ 已翻译 ${translateProgress.total} 条新闻`);
+  hideTranslateStatus();
+}
+
+async function translateBatch(items, cfg, cache){
+  // Build numbered list
+  const lines = items.map((n, j) => `${j+1}. [标题] ${n.title}\n   [摘要] ${(n.summary||'').substring(0,200)}`);
+  const prompt = lines.join('\n');
+  
+  const systemPrompt = `你是专业新闻翻译器。将以下编号的英文新闻标题和摘要翻译成简洁流畅的中文。
+规则：
+1. 严格保持编号格式
+2. 每条输出格式: 编号. [标题] 中文标题 [摘要] 中文摘要
+3. 人名地名用通用中文译名
+4. 保持新闻标题简洁风格
+5. 只输出翻译，不加任何解释`;
+  
+  const resp = await fetch(cfg.apiUrl + '/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.apiKey },
+    body: JSON.stringify({
+      model: cfg.model || 'deepseek-ai/DeepSeek-V3',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: prompt }
+      ],
+      max_tokens: 3000,
+      temperature: 0.3
+    })
+  });
+  
+  const data = await resp.json();
+  const reply = data.choices?.[0]?.message?.content || '';
+  
+  // Parse response
+  const replyLines = reply.split('\n').filter(l => l.trim());
+  let currentNum = -1;
+  let currentTitle = '';
+  let currentSummary = '';
+  
+  for(const line of replyLines){
+    const m = line.match(/^(\d+)\s*[.、．]\s*(.*)/);
+    if(m){
+      // Save previous
+      if(currentNum >= 0 && currentNum < items.length){
+        cache[items[currentNum].id] = { title: currentTitle.trim(), summary: currentSummary.trim() };
+      }
+      currentNum = parseInt(m[1]) - 1;
+      const rest = m[2];
+      const titleMatch = rest.match(/\[标题[\]】]\s*(.*)/);
+      const summaryMatch = rest.match(/\[摘要[\]】]\s*(.*)/);
+      if(titleMatch && summaryMatch){
+        currentTitle = titleMatch[1].replace(/\s*\[摘要.*/, '');
+        currentSummary = summaryMatch[1];
+      } else if(titleMatch){
+        currentTitle = titleMatch[1];
+        currentSummary = '';
+      } else {
+        currentTitle = rest;
+        currentSummary = '';
+      }
+    } else if(currentNum >= 0){
+      // Continuation line - check for summary marker
+      const sm = line.match(/\s*\[摘要[\]】]\s*(.*)/);
+      if(sm){ currentSummary = sm[1]; }
+      else { currentSummary += ' ' + line.trim(); }
+    }
+  }
+  // Save last
+  if(currentNum >= 0 && currentNum < items.length){
+    cache[items[currentNum].id] = { title: currentTitle.trim(), summary: currentSummary.trim() };
+  }
+}
+
+function applyCachedTranslations(){
+  const cache = getTranslateCache();
+  allNews.forEach(n => {
+    if(n.lang === 'en' && cache[n.id]){
+      const t = cache[n.id];
+      if(t.title){
+        n.title_original = n.title_original || n.title;
+        n.title = t.title;
+      }
+      if(t.summary){
+        n.summary_original = n.summary_original || n.summary;
+        n.summary = t.summary;
+      }
+      n.lang = 'zh-translated';
+    }
+  });
+}
+
+function showTranslateStatus(){
+  let bar = document.getElementById('translate-bar');
+  if(!bar){
+    bar = document.createElement('div');
+    bar.id = 'translate-bar';
+    bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999;background:var(--accent);color:white;text-align:center;padding:4px 0;font-size:12px;font-weight:600;transition:opacity 0.3s';
+    document.body.appendChild(bar);
+  }
+  bar.textContent = `🌐 翻译中... ${translateProgress.done}/${translateProgress.total}`;
+  bar.style.opacity = '1';
+}
+
+function hideTranslateStatus(){
+  const bar = document.getElementById('translate-bar');
+  if(bar){ bar.style.opacity = '0'; setTimeout(() => bar?.remove(), 300); }
+}
+
+async function manualTranslate(){
+  const cfg = getAIConfig();
+  if(!cfg.apiKey || !cfg.apiUrl){
+    showToast('❌ 请先在设置中配置AI API');
+    switchView('settings');
+    return;
+  }
+  if(isTranslating){
+    showToast('⏳ 翻译正在进行中...');
+    return;
+  }
+  await autoTranslateNews();
 }
 
 // ==================== FILTERS ====================
@@ -467,7 +643,7 @@ function applyFilters(){
     if(currentRegion !== 'all' && !(n.regions||[]).includes(currentRegion)) return false;
     if(searchQuery && !n.title.toLowerCase().includes(searchQuery) && 
        !(n.summary||'').toLowerCase().includes(searchQuery)) return false;
-    if(settings.zhonly && n.lang !== 'zh') return false;
+    if(settings.zhonly && n.lang !== 'zh' && n.lang !== 'zh-translated') return false;
     return true;
   });
   
@@ -529,7 +705,7 @@ function renderNewsList(){
         </div>
         <div class="news-bottom">
           ${(n.regions||[]).map(r => `<span class="news-region">${r}</span>`).join('')}
-          <span class="news-lang">${n.lang === 'zh' ? '中文' : 'EN'}</span>
+          <span class="news-lang">${n.lang === 'zh' ? '中文' : n.lang === 'zh-translated' ? '已翻译' : 'EN'}</span>
         </div>
       </div>`;
   }).join('');
@@ -587,7 +763,8 @@ function openDetail(news){
     ${news.summary ? `<div class="modal-summary">${escapeHtml(news.summary)}</div>` : ''}
     <div class="modal-regions">
       ${(news.regions||[]).map(r => `<span class="news-region" style="font-size:11px;padding:4px 10px">${r}</span>`).join('')}
-      <span class="news-lang" style="font-size:11px;padding:4px 10px">${news.lang === 'zh' ? '🇨🇳 中文' : '🇬🇧 English'}</span>
+      <span class="news-lang" style="font-size:11px;padding:4px 10px">${news.lang === 'zh' ? '🇨🇳 中文' : news.lang === 'zh-translated' ? '🌐 AI翻译' : '🇬🇧 English'}</span>
+      ${news.title_original ? `<div style="margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.05);border-radius:8px;font-size:11px;color:var(--sub)">原标题: ${escapeHtml(news.title_original)}</div>` : ''}
     </div>
     <div id="ai-analysis-container"></div>
     ${news.link ? `<a class="modal-link" href="${news.link}" target="_blank" rel="noopener">📖 阅读原文 →</a>` : ''}
