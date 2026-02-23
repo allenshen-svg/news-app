@@ -1,6 +1,6 @@
 {
-  "last_update": "2026-02-23T13:22:58.059673+00:00",
-  "total": 300,
+  "last_update": "2026-02-23T14:11:49.563235+00:00",
+  "total": 310,
   "sources": 19,
   "items": [
     {
@@ -5534,6 +5534,373 @@
         "欧洲"
       ],
       "priority": 2
+    },
+    {
+      "id": "trend_3adb9acc48",
+      "title": "→ 关税",
+      "summary": "🔥 热力值: 19 · 📊 频率: 25 · 📱 bilibili,36kr,sina · 相关: 反美的美国最高法裁定特朗普关税政策不合法",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "时事",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563198+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 18910,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 18.91,
+        "frequency": 25,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.7071067811865474,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "bilibili",
+          "36kr",
+          "sina",
+          "news"
+        ],
+        "sparkline": [
+          12,
+          25,
+          25,
+          25
+        ]
+      }
+    },
+    {
+      "id": "trend_1efc978309",
+      "title": "→ 美国",
+      "summary": "🔥 热力值: 18 · 📊 频率: 25 · 📱 bilibili,sina,news · 相关: 反美的美国最高法裁定特朗普关税政策不合法",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "国际",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563208+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 17910,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 17.91,
+        "frequency": 25,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.7071067811865478,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "bilibili",
+          "sina",
+          "news"
+        ],
+        "sparkline": [
+          5,
+          25,
+          25,
+          25
+        ]
+      }
+    },
+    {
+      "id": "trend_09540e050d",
+      "title": "→ 韩国",
+      "summary": "🔥 热力值: 15 · 📊 频率: 22 · 📱 36kr,news · 相关: 花旗韩国宣布在芝加哥推出其全新的花旗韩国交易台",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "国际",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563212+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 15100,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 15.1,
+        "frequency": 22,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.0,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "36kr",
+          "news"
+        ],
+        "sparkline": [
+          22,
+          22,
+          22
+        ]
+      }
+    },
+    {
+      "id": "trend_afb4aca7ac",
+      "title": "↑ 妆容",
+      "summary": "⚡ 突发热点 · 🔥 热力值: 13 · 📊 频率: 7 · 📱 xiaohongshu · 相关: 你们要的妆容分享这就来啦",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "时事",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:11:49.546770+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563215+00:00",
+      "importance": 5,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 13290,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 13.29,
+        "frequency": 7,
+        "acceleration": 4.0,
+        "is_burst": true,
+        "z_score": 4.0,
+        "macd_signal": "neutral",
+        "direction": "↑",
+        "platforms": [
+          "xiaohongshu"
+        ],
+        "sparkline": [
+          3,
+          3,
+          7
+        ]
+      }
+    },
+    {
+      "id": "trend_2de0d491d0",
+      "title": "→ 小时",
+      "summary": "🔥 热力值: 12 · 📊 频率: 15 · 📱 baidu,toutiao,news · 相关: 高速堵车亲历者：10小时路程开两天",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "时事",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563218+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 12180,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 12.18,
+        "frequency": 15,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.0,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "baidu",
+          "toutiao",
+          "news"
+        ],
+        "sparkline": [
+          15,
+          15,
+          15
+        ]
+      }
+    },
+    {
+      "id": "trend_79b21044d0",
+      "title": "→ 西安",
+      "summary": "🔥 热力值: 12 · 📊 频率: 14 · 📱 baidu,toutiao,douyin · 相关: 西安暴雪24小时内温差20度",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "时事",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563221+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 11700,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 11.7,
+        "frequency": 14,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.0,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "baidu",
+          "toutiao",
+          "douyin"
+        ],
+        "sparkline": [
+          14,
+          14,
+          14
+        ]
+      }
+    },
+    {
+      "id": "trend_a9638fa318",
+      "title": "→ Trump",
+      "summary": "🔥 热力值: 11 · 📊 频率: 16 · 📱 news · 相关: Trump demands Netflix fire Susan Rice as DOJ probe",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "时事",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563224+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 10530,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 10.53,
+        "frequency": 16,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.0,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "news"
+        ],
+        "sparkline": [
+          16,
+          16,
+          16
+        ]
+      }
+    },
+    {
+      "id": "trend_f427d663a1",
+      "title": "→ 贸易",
+      "summary": "🔥 热力值: 10 · 📊 频率: 14 · 📱 sina,news · 相关: 美国股指期货走低 贸易不确定性笼罩市场",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "财经",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:10:29.884558+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563226+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 10370,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 10.37,
+        "frequency": 14,
+        "acceleration": -0.4,
+        "is_burst": false,
+        "z_score": 1.0,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "sina",
+          "news"
+        ],
+        "sparkline": [
+          13,
+          14,
+          14
+        ]
+      }
+    },
+    {
+      "id": "trend_b6e1e681c9",
+      "title": "→ 全球",
+      "summary": "🔥 热力值: 10 · 📊 频率: 12 · 📱 toutiao,sina,news · 相关: 被击毙的全球头号毒枭是何许人",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "国际",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563229+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 10270,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 10.27,
+        "frequency": 12,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.0,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "toutiao",
+          "sina",
+          "news"
+        ],
+        "sparkline": [
+          12,
+          12,
+          12
+        ]
+      }
+    },
+    {
+      "id": "trend_7f57090708",
+      "title": "→ 特朗普",
+      "summary": "🔥 热力值: 10 · 📊 频率: 12 · 📱 bilibili,sina,news · 相关: 反美的美国最高法裁定特朗普关税政策不合法",
+      "link": "",
+      "source": "🔬 热点发现",
+      "source_icon": "🔬",
+      "category": "时事",
+      "lang": "zh",
+      "image": "",
+      "pub_date": "2026-02-23T14:09:08.904144+00:00",
+      "fetch_time": "2026-02-23T14:11:49.563231+00:00",
+      "importance": 3,
+      "regions": [],
+      "priority": 0,
+      "hot_value": 10170,
+      "is_discovered_trend": true,
+      "trend_data": {
+        "heat_score": 10.17,
+        "frequency": 12,
+        "acceleration": 0.0,
+        "is_burst": false,
+        "z_score": 0.0,
+        "macd_signal": "neutral",
+        "direction": "→",
+        "platforms": [
+          "bilibili",
+          "sina",
+          "news"
+        ],
+        "sparkline": [
+          12,
+          12,
+          12
+        ]
+      }
     }
   ]
 }

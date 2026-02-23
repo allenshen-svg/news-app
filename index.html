@@ -228,6 +228,75 @@ body { font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica N
 .hot-collapse-btn { font-size:11px; color:var(--accent2); cursor:pointer; padding:4px 10px; border-radius:12px; background:rgba(108,92,231,0.1); border:none; font-weight:600; }
 .hot-collapse-btn:hover { background:rgba(108,92,231,0.2); }
 
+/* ---- Trend Discovery Section ---- */
+.trend-section { padding:12px 16px 4px; }
+.trend-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.trend-section-title { font-size:16px; font-weight:800; display:flex; align-items:center; gap:6px; }
+.trend-section-title .microscope { animation:pulseAnim 1.5s ease-in-out infinite; }
+@keyframes pulseAnim { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.1);opacity:0.8} }
+.trend-algo-badge { font-size:9px; padding:2px 8px; border-radius:10px; background:rgba(46,213,115,0.15); color:var(--green); font-weight:600; }
+
+.trend-grid { display:grid; grid-template-columns:1fr; gap:8px; }
+@media(min-width:640px){ .trend-grid { grid-template-columns:1fr 1fr; } }
+@media(min-width:960px){ .trend-grid { grid-template-columns:1fr 1fr 1fr; } }
+
+.trend-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
+.trend-card:hover { background:var(--card-hover); transform:translateY(-2px); box-shadow:var(--shadow); }
+.trend-card.burst { border-color:rgba(255,107,107,0.5); background:linear-gradient(135deg,rgba(255,107,107,0.06),rgba(255,165,2,0.06)); }
+.trend-card.burst::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--red),var(--orange)); }
+.trend-card.bullish { border-color:rgba(46,213,115,0.4); }
+
+.trend-card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.trend-rank-num { font-size:14px; font-weight:800; color:var(--accent2); }
+.trend-direction { font-size:16px; }
+.trend-heat-bar { height:4px; border-radius:2px; background:var(--border); overflow:hidden; margin-bottom:8px; }
+.trend-heat-fill { height:100%; border-radius:2px; transition:width 0.6s ease-out; }
+.trend-heat-fill.high { background:linear-gradient(90deg,var(--red),var(--orange)); }
+.trend-heat-fill.medium { background:linear-gradient(90deg,var(--orange),var(--yellow)); }
+.trend-heat-fill.low { background:linear-gradient(90deg,var(--blue),var(--accent)); }
+
+.trend-keyword { font-size:14px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+.trend-keyword .burst-badge { font-size:9px; padding:1px 6px; border-radius:8px; background:linear-gradient(135deg,var(--red),var(--orange)); color:white; font-weight:700; animation:blink 1s infinite; }
+.trend-keyword .macd-badge { font-size:9px; padding:1px 6px; border-radius:8px; font-weight:700; }
+.trend-keyword .macd-badge.bullish { background:rgba(46,213,115,0.2); color:var(--green); }
+.trend-keyword .macd-badge.bearish { background:rgba(255,107,107,0.2); color:var(--red); }
+
+.trend-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
+.trend-meta-item { font-size:10px; color:var(--sub); }
+.trend-meta-item.heat { color:var(--red); font-weight:600; }
+.trend-platforms { display:flex; gap:3px; }
+.trend-platform-dot { width:6px; height:6px; border-radius:50%; }
+.trend-platform-dot.douyin { background:#fe2c55; }
+.trend-platform-dot.xiaohongshu { background:#fe2442; }
+.trend-platform-dot.weibo { background:#ff8200; }
+.trend-platform-dot.bilibili { background:#00a1d6; }
+.trend-platform-dot.zhihu { background:#0066ff; }
+.trend-platform-dot.baidu { background:#2932e1; }
+
+.trend-sparkline { margin-top:6px; }
+.trend-sparkline svg { display:block; }
+.trend-sparkline .spark-line { fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.trend-sparkline .spark-area { opacity:0.15; }
+.trend-sparkline.burst .spark-line { stroke:var(--red); }
+.trend-sparkline.burst .spark-area { fill:var(--red); }
+.trend-sparkline.bullish .spark-line { stroke:var(--green); }
+.trend-sparkline.bullish .spark-area { fill:var(--green); }
+.trend-sparkline.neutral .spark-line { stroke:var(--accent2); }
+.trend-sparkline.neutral .spark-area { fill:var(--accent2); }
+
+.trend-related { font-size:10px; color:var(--sub); line-height:1.5; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+.trend-summary-strip { display:flex; gap:8px; padding:6px 0; overflow-x:auto; scrollbar-width:none; margin-bottom:4px; }
+.trend-summary-strip::-webkit-scrollbar { display:none; }
+.trend-summary-chip { white-space:nowrap; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:600; flex-shrink:0; }
+.trend-summary-chip.burst-count { background:rgba(255,107,107,0.15); color:var(--red); }
+.trend-summary-chip.rising-count { background:rgba(46,213,115,0.15); color:var(--green); }
+.trend-summary-chip.total-count { background:rgba(108,92,231,0.15); color:var(--accent2); }
+.trend-summary-chip.algo-info { background:rgba(255,165,2,0.15); color:var(--orange); }
+
+.trend-toggle-btn { font-size:11px; color:var(--accent2); cursor:pointer; padding:4px 10px; border-radius:12px; background:rgba(108,92,231,0.1); border:none; font-weight:600; }
+.trend-toggle-btn:hover { background:rgba(108,92,231,0.2); }
+
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar { width:4px; }
 ::-webkit-scrollbar-track { background:transparent; }
@@ -280,6 +349,19 @@ body { font-family: -apple-system, 'SF Pro Display', 'PingFang SC', 'Helvetica N
 <div class="breaking" id="breaking-banner">
   <div class="breaking-label">🔴 突发</div>
   <div class="breaking-title" id="breaking-title"></div>
+</div>
+
+<!-- Trend Discovery Section (AI/NLP发现) -->
+<div class="trend-section" id="trend-section" style="display:none">
+  <div class="trend-section-header">
+    <div class="trend-section-title">
+      <span class="microscope">🔬</span> 热点发现引擎
+      <span class="trend-algo-badge">NLP + BurstDetect</span>
+    </div>
+    <button class="trend-toggle-btn" onclick="toggleTrendExpand()">展开/收起</button>
+  </div>
+  <div class="trend-summary-strip" id="trend-summary"></div>
+  <div class="trend-grid" id="trend-grid"></div>
 </div>
 
 <!-- Hot Trending Section -->
@@ -424,6 +506,8 @@ let isTranslating = false;
 let translateProgress = { done: 0, total: 0 };
 let currentHotPlatform = 'all';
 const HOT_SOURCES = ['抖音热搜', '小红书热门', '今日头条', '36氪快讯'];
+let trendData = null;
+let trendExpanded = true;
 
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', () => {
@@ -484,6 +568,7 @@ async function loadNews(){
     
     applyFilters();
     renderHotTrending();
+    loadTrends();
     
     document.getElementById('loading').style.display = 'none';
     
@@ -780,6 +865,104 @@ function formatHotValue(v){
   return v.toLocaleString();
 }
 
+// ==================== TREND DISCOVERY ====================
+async function loadTrends(){
+  try {
+    const resp = await fetch('data/trends.json?t=' + Date.now());
+    if(!resp.ok) return;
+    trendData = await resp.json();
+    renderTrendDiscovery();
+  } catch(e){
+    // trends.json may not exist yet
+    console.debug('No trend data:', e.message);
+  }
+}
+
+function renderTrendDiscovery(){
+  if(!trendData || !trendData.trends || trendData.trends.length === 0) {
+    document.getElementById('trend-section').style.display = 'none';
+    return;
+  }
+  
+  const section = document.getElementById('trend-section');
+  section.style.display = 'block';
+  
+  const trends = trendData.trends;
+  const burstCount = trends.filter(t => t.is_burst).length;
+  const risingCount = trends.filter(t => t.trend_direction === '↑' || t.trend_direction === '↗').length;
+  
+  // Summary strip
+  const summary = document.getElementById('trend-summary');
+  summary.innerHTML = `
+    <div class="trend-summary-chip total-count">🔬 ${trends.length} 个趋势</div>
+    ${burstCount > 0 ? `<div class="trend-summary-chip burst-count">🔴 ${burstCount} 突发</div>` : ''}
+    ${risingCount > 0 ? `<div class="trend-summary-chip rising-count">📈 ${risingCount} 上升</div>` : ''}
+    <div class="trend-summary-chip algo-info">⚡ Z-Score + MACD + NLP</div>
+  `;
+  
+  // Trend cards (top 12)
+  const grid = document.getElementById('trend-grid');
+  const displayTrends = trendExpanded ? trends.slice(0, 12) : trends.slice(0, 3);
+  
+  grid.innerHTML = displayTrends.map((t, i) => {
+    const heatPct = Math.min(100, t.heat_score);
+    const heatClass = heatPct >= 60 ? 'high' : heatPct >= 30 ? 'medium' : 'low';
+    const cardClass = t.is_burst ? 'burst' : t.macd_signal === 'bullish' ? 'bullish' : '';
+    const sparkClass = t.is_burst ? 'burst' : t.macd_signal === 'bullish' ? 'bullish' : 'neutral';
+    
+    return `
+      <div class="trend-card ${cardClass}">
+        <div class="trend-card-top">
+          <span class="trend-rank-num">#${i + 1}</span>
+          <div class="trend-platforms">
+            ${(t.platforms || []).map(p => `<div class="trend-platform-dot ${p}" title="${p}"></div>`).join('')}
+          </div>
+          <span class="trend-direction">${t.trend_direction}</span>
+        </div>
+        <div class="trend-heat-bar"><div class="trend-heat-fill ${heatClass}" style="width:${heatPct}%"></div></div>
+        <div class="trend-keyword">
+          ${escapeHtml(t.keyword)}
+          ${t.is_burst ? '<span class="burst-badge">BURST</span>' : ''}
+          ${t.macd_signal === 'bullish' ? '<span class="macd-badge bullish">↑ MACD</span>' : ''}
+          ${t.macd_signal === 'bearish' ? '<span class="macd-badge bearish">↓ MACD</span>' : ''}
+        </div>
+        <div class="trend-meta">
+          <span class="trend-meta-item heat">🔥 ${t.heat_score.toFixed(1)}</span>
+          <span class="trend-meta-item">频率:${t.frequency}</span>
+          <span class="trend-meta-item">Z:${(t.burst_z_score||0).toFixed(1)}</span>
+          <span class="trend-meta-item">${t.category || ''}</span>
+        </div>
+        ${renderSparkline(t.sparkline || [], sparkClass)}
+        ${t.related_titles && t.related_titles[0] ? `<div class="trend-related">📎 ${escapeHtml(t.related_titles[0].substring(0,40))}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+function renderSparkline(data, styleClass){
+  if(!data || data.length < 2) return '';
+  
+  const width = 140, height = 28;
+  const max = Math.max(...data, 1);
+  const step = width / (data.length - 1);
+  
+  const points = data.map((v, i) => `${(i * step).toFixed(1)},${(height - (v / max) * (height - 4) - 2).toFixed(1)}`);
+  const linePath = 'M' + points.join(' L');
+  const areaPath = linePath + ` L${width},${height} L0,${height} Z`;
+  
+  return `
+    <div class="trend-sparkline ${styleClass}">
+      <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+        <path class="spark-area" d="${areaPath}"/>
+        <path class="spark-line" d="${linePath}"/>
+      </svg>
+    </div>`;
+}
+
+function toggleTrendExpand(){
+  trendExpanded = !trendExpanded;
+  renderTrendDiscovery();
+}
+
 // ==================== RENDER ====================
 function renderNewsList(){
   const container = document.getElementById('news-list');
@@ -967,6 +1150,7 @@ function switchView(view){
   document.getElementById('stats-bar').style.display = view === 'news' ? 'grid' : 'none';
   document.querySelector('.search-bar').style.display = view === 'news' ? 'block' : 'none';
   document.getElementById('hot-section').style.display = view === 'news' ? 'block' : 'none';
+  document.getElementById('trend-section').style.display = (view === 'news' && trendData && trendData.trends && trendData.trends.length > 0) ? 'block' : 'none';
   document.getElementById('breaking-banner').style.display = 
     (view === 'news' && allNews.some(n => n.importance >= 5)) ? 'block' : 'none';
   

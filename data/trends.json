@@ -1,0 +1,966 @@
+{
+  "update_time": "2026-02-23T14:11:49.554837+00:00",
+  "total_trends": 30,
+  "burst_count": 1,
+  "algorithm": {
+    "heat_weights": {
+      "alpha": 0.4,
+      "beta": 0.3,
+      "gamma": 0.2,
+      "delta": 0.1
+    },
+    "decay_half_life_hours": 4.0,
+    "burst_z_threshold": 2.5,
+    "macd_periods": {
+      "short": 12,
+      "long": 26,
+      "signal": 9
+    }
+  },
+  "trends": [
+    {
+      "keyword": "关税",
+      "heat_score": 18.91,
+      "frequency": 25,
+      "acceleration": 0.0,
+      "source_diversity": 4,
+      "engagement": 0.01599489069621343,
+      "is_burst": false,
+      "burst_z_score": 0.7071067811865474,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "bilibili",
+        "36kr",
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "反美的美国最高法裁定特朗普关税政策不合法",
+        "春节重磅！全球资产上涨！关税突变，中方表态！芯片、机器人刷屏！影响一周市场的十大消息",
+        "鉴于特朗普关税风险 欧盟势将冻结对与美国贸易协议的批准程序",
+        "英国央行官员Taylor淡化最高法院裁决 称美国关税影响将持续多年",
+        "分析师：关税不确定性再度升温，比特币承压下跌"
+      ],
+      "category": "时事",
+      "sparkline": [
+        12,
+        25,
+        25,
+        25
+      ],
+      "first_seen": "2026-02-23T14:05:47.829250+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "美国",
+      "heat_score": 17.91,
+      "frequency": 25,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.01599489069621343,
+      "is_burst": false,
+      "burst_z_score": 0.7071067811865478,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "bilibili",
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "反美的美国最高法裁定特朗普关税政策不合法",
+        "知情人士：印度并未考虑放弃与美国达成的双边贸易协定",
+        "美国股指期货走低 贸易不确定性笼罩市场",
+        "欧盟特使将于周一下午举行会议 讨论欧盟与美国之间的贸易问题",
+        "鉴于特朗普关税风险 欧盟势将冻结对与美国贸易协议的批准程序"
+      ],
+      "category": "国际",
+      "sparkline": [
+        5,
+        25,
+        25,
+        25
+      ],
+      "first_seen": "2026-02-23T14:05:47.829250+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "韩国",
+      "heat_score": 15.1,
+      "frequency": 22,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "36kr",
+        "news"
+      ],
+      "related_titles": [
+        "花旗韩国宣布在芝加哥推出其全新的花旗韩国交易台",
+        "花旗韩国宣布在芝加哥推出其全新的花旗韩国交易台",
+        "详讯：韩国南部山火44小时后扑灭 过火面积相当于327个足球场",
+        "韩国三大电视台因版权问题起诉OpenAI",
+        "韩国济州航空将增开赴华航线"
+      ],
+      "category": "国际",
+      "sparkline": [
+        22,
+        22,
+        22
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "妆容",
+      "heat_score": 13.29,
+      "frequency": 7,
+      "acceleration": 4.0,
+      "source_diversity": 1,
+      "engagement": 0.04124470273660402,
+      "is_burst": true,
+      "burst_z_score": 4.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "↑",
+      "platforms": [
+        "xiaohongshu"
+      ],
+      "related_titles": [
+        "你们要的妆容分享这就来啦",
+        "小五官淡颜来画小白花妆容|楚楚动人美惨了"
+      ],
+      "category": "时事",
+      "sparkline": [
+        3,
+        3,
+        7
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:11:49.546770+00:00"
+    },
+    {
+      "keyword": "小时",
+      "heat_score": 12.18,
+      "frequency": 15,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.1677532033673255,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "toutiao",
+        "news"
+      ],
+      "related_titles": [
+        "高速堵车亲历者：10小时路程开两天",
+        "女子极限候补到车票避开12小时堵车",
+        "西安暴雪24小时内温差20度",
+        "小狗坐十几个小时长途面相都变了",
+        "高速堵车亲历者：10小时路程开两天"
+      ],
+      "category": "时事",
+      "sparkline": [
+        15,
+        15,
+        15
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "西安",
+      "heat_score": 11.7,
+      "frequency": 14,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.24210815983849115,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "toutiao",
+        "douyin"
+      ],
+      "related_titles": [
+        "西安暴雪24小时内温差20度",
+        "西安下大雪如童话世界",
+        "西安大雪",
+        "西安大唐不夜城有多火",
+        "大年初七暴雪席卷西安"
+      ],
+      "category": "时事",
+      "sparkline": [
+        14,
+        14,
+        14
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "Trump",
+      "heat_score": 10.53,
+      "frequency": 16,
+      "acceleration": 0.0,
+      "source_diversity": 1,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "news"
+      ],
+      "related_titles": [
+        "Trump demands Netflix fire Susan Rice as DOJ probes Warner deal",
+        "Trump’s new interest in war will end badly",
+        "Dow futures drop 250 points as Trump raises tariffs again, sowing confusion: Live updates",
+        "U.S. importers still paying Trump's illegal tariffs even after Supreme Court ruling",
+        "Armed man killed after entering secure perimeter of Trump's residence, Secret Service says"
+      ],
+      "category": "时事",
+      "sparkline": [
+        16,
+        16,
+        16
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "贸易",
+      "heat_score": 10.37,
+      "frequency": 14,
+      "acceleration": -0.4,
+      "source_diversity": 2,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 1.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "美国股指期货走低 贸易不确定性笼罩市场",
+        "欧盟特使将于周一下午举行会议 讨论欧盟与美国之间的贸易问题",
+        "鉴于特朗普关税风险 欧盟势将冻结对与美国贸易协议的批准程序",
+        "特朗普扬言利用贸易许可证 抨击不得收费规定",
+        "韩财长：韩美贸易协议依然有效"
+      ],
+      "category": "财经",
+      "sparkline": [
+        13,
+        14,
+        14
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:10:29.884558+00:00"
+    },
+    {
+      "keyword": "全球",
+      "heat_score": 10.27,
+      "frequency": 12,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.08249602337323805,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "toutiao",
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "被击毙的全球头号毒枭是何许人",
+        "春节重磅！全球资产上涨！关税突变，中方表态！芯片、机器人刷屏！影响一周市场的十大消息",
+        "尽管增速放缓，德国仍是全球第三大经济体",
+        "一文讀懂特朗普最新關稅措施：他宣佈的最新全球關稅將如何運作？",
+        "特朗普全球关税再加码：从10%提高至15%"
+      ],
+      "category": "国际",
+      "sparkline": [
+        12,
+        12,
+        12
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "特朗普",
+      "heat_score": 10.17,
+      "frequency": 12,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.01599489069621343,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "bilibili",
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "反美的美国最高法裁定特朗普关税政策不合法",
+        "鉴于特朗普关税风险 欧盟势将冻结对与美国贸易协议的批准程序",
+        "特朗普扬言利用贸易许可证 抨击不得收费规定",
+        "特朗普關稅變動後，企業與消費者面臨不確定性",
+        "「2025計劃」：從委內瑞拉到移民鎮壓，特朗普的政策路線圖"
+      ],
+      "category": "时事",
+      "sparkline": [
+        12,
+        12,
+        12
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "中国",
+      "heat_score": 8.63,
+      "frequency": 11,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 0.053893834395379425,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "news"
+      ],
+      "related_titles": [
+        "创新中国春潮涌",
+        "老外不说威胁改说中国变酷",
+        "事实核查：中国的机器人士兵只是AI生成？",
+        "美国关税压力之下 南非寻求扩大中国新市场",
+        "规避制裁 大量欧日车绕经中国销往俄罗斯"
+      ],
+      "category": "时事",
+      "sparkline": [
+        11,
+        11,
+        11
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "公司",
+      "heat_score": 8.55,
+      "frequency": 11,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "36kr",
+        "sina"
+      ],
+      "related_titles": [
+        "芬兰量子计算公司IQM将通过SPAC上市 成为欧洲首批上市量子企业",
+        "ST京蓝：如未来公司股票价格进一步异常上涨 可能申请停牌核查",
+        "芬兰IQM成为欧洲首批上市量子公司之一 估值约18亿美元",
+        "立讯精密：首次回购公司股份990万股 成交总金额近5亿元",
+        "Kimi近20天收入超去年全年，成国内成长最快的十角兽公司"
+      ],
+      "category": "时事",
+      "sparkline": [
+        11,
+        11,
+        11
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "票房",
+      "heat_score": 8.47,
+      "frequency": 9,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.0746299161567184,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "douyin",
+        "toutiao",
+        "36kr"
+      ],
+      "related_titles": [
+        "电影镖人连续4天票房逆跌",
+        "《镖人》连续4天票房逆跌",
+        "镖人票房超射雕成武侠片冠军",
+        "2026春节档总票房破55亿",
+        "2026年春节档票房破54亿"
+      ],
+      "category": "时事",
+      "sparkline": [
+        9,
+        9,
+        9
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "纪录片",
+      "heat_score": 8.31,
+      "frequency": 9,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.004096892565603337,
+      "is_burst": false,
+      "burst_z_score": -0.7071067811865478,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "xiaohongshu",
+        "bilibili",
+        "36kr"
+      ],
+      "related_titles": [
+        "【纪录片】策马少年时——2026总台春晚幕后纪实 03 笑的公约数",
+        "这个纪录片女主十年后的经历让人好感动！",
+        "虎鲸文娱发布春节文娱消费报告：线下演出同比增长27%，线上经典剧集纪录片成假期合家欢首选"
+      ],
+      "category": "时事",
+      "sparkline": [
+        13,
+        9,
+        9,
+        9
+      ],
+      "first_seen": "2026-02-23T14:05:47.829250+00:00",
+      "peak_time": "2026-02-23T14:05:47.829250+00:00"
+    },
+    {
+      "keyword": "堵车",
+      "heat_score": 8.15,
+      "frequency": 10,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 0.1331178330111172,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "toutiao"
+      ],
+      "related_titles": [
+        "高速堵车亲历者：10小时路程开两天",
+        "女子极限候补到车票避开12小时堵车",
+        "外籍博主称“终于体验了春节堵车”",
+        "高速堵车亲历者：10小时路程开两天"
+      ],
+      "category": "时事",
+      "sparkline": [
+        10,
+        10,
+        10
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "访华",
+      "heat_score": 7.95,
+      "frequency": 8,
+      "acceleration": -2.0,
+      "source_diversity": 3,
+      "engagement": 0.12398149393682623,
+      "is_burst": false,
+      "burst_z_score": -2.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "↘",
+      "platforms": [
+        "baidu",
+        "toutiao",
+        "news"
+      ],
+      "related_titles": [
+        "德国总理默茨将访华",
+        "德国总理默茨将访华",
+        "德国工商会：梅尔茨总理访华的时机恰到好处",
+        "专家如何看德国总理梅尔茨访华的机遇与挑战？"
+      ],
+      "category": "时事",
+      "sparkline": [
+        10,
+        10,
+        8
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "影响",
+      "heat_score": 7.95,
+      "frequency": 10,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "春节重磅！全球资产上涨！关税突变，中方表态！芯片、机器人刷屏！影响一周市场的十大消息",
+        "英国央行官员Taylor淡化最高法院裁决 称美国关税影响将持续多年",
+        "默沙东将拆分癌症业务，以应对可瑞达专利到期影响",
+        "韩产业部长：将与美友好协商力保出口环境不受影响",
+        "最高法院关税裁定将如何影响“特习会”？"
+      ],
+      "category": "时事",
+      "sparkline": [
+        10,
+        10,
+        10
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "起火",
+      "heat_score": 7.85,
+      "frequency": 8,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.055639538935816774,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "douyin",
+        "36kr"
+      ],
+      "related_titles": [
+        "问界汽车回应惠州车辆起火",
+        "官方回应京昆高速一货车起火",
+        "问界通报广东惠州车辆起火事件：非车辆自身原因导致"
+      ],
+      "category": "时事",
+      "sparkline": [
+        8,
+        8,
+        8
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "Mexico",
+      "heat_score": 7.55,
+      "frequency": 11,
+      "acceleration": 0.0,
+      "source_diversity": 1,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "news"
+      ],
+      "related_titles": [
+        "Mexico fears more violence after army kills leader of powerful Jalisco cartel",
+        "Death of Jalisco Cartel Leader in Raid Sparks Clashes in Mexico",
+        "Cartel henchmen unleash violence after top drug lord killed in Mexico",
+        "Violence erupts in Mexico after killing of drug lord ‘El Mencho’",
+        "What we know about the killing of Mexico’s ‘El Mencho’"
+      ],
+      "category": "时事",
+      "sparkline": [
+        11,
+        11,
+        11
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "朋友",
+      "heat_score": 7.45,
+      "frequency": 8,
+      "acceleration": -5.0,
+      "source_diversity": 2,
+      "engagement": 0.4853759707371984,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "↘",
+      "platforms": [
+        "xiaohongshu",
+        "bilibili"
+      ],
+      "related_titles": [
+        "过年期间无聊就和朋友在ktv这么玩",
+        "当好朋友突然开始讲文明！！！",
+        "【搞笑】和好朋友的对象聊天有多尴尬",
+        "一个🥔解锁流汁麻酱土豆片‼️好吃到没朋友"
+      ],
+      "category": "时事",
+      "sparkline": [
+        13,
+        8
+      ],
+      "first_seen": "2026-02-23T14:05:47.829250+00:00",
+      "peak_time": "2026-02-23T14:05:47.829250+00:00"
+    },
+    {
+      "keyword": "机器人",
+      "heat_score": 7.32,
+      "frequency": 7,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.10182376726445137,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "bilibili",
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "那我能上春晚当机器人吗",
+        "春节重磅！全球资产上涨！关税突变，中方表态！芯片、机器人刷屏！影响一周市场的十大消息",
+        "事实核查：中国的机器人士兵只是AI生成？"
+      ],
+      "category": "科技",
+      "sparkline": [
+        7,
+        7,
+        7
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "协议",
+      "heat_score": 7.17,
+      "frequency": 7,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "36kr",
+        "sina",
+        "news"
+      ],
+      "related_titles": [
+        "鉴于特朗普关税风险 欧盟势将冻结对与美国贸易协议的批准程序",
+        "和铂医药宣布就一款临床阶段抗体产品达成授权协议及股权合作",
+        "韩财长：韩美贸易协议依然有效"
+      ],
+      "category": "时事",
+      "sparkline": [
+        7,
+        7,
+        7
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "返程",
+      "heat_score": 6.97,
+      "frequency": 8,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 0.14011003246797996,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "douyin"
+      ],
+      "related_titles": [
+        "春节返程高峰这份安全指南请收好",
+        "女儿返程怕行李超重 母亲搬出传家宝",
+        "直击春运返程高峰",
+        "又到一年返程时"
+      ],
+      "category": "时事",
+      "sparkline": [
+        8,
+        8,
+        8
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "回应",
+      "heat_score": 6.66,
+      "frequency": 6,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.055639538935816774,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "douyin",
+        "news"
+      ],
+      "related_titles": [
+        "问界汽车回应惠州车辆起火",
+        "官方回应京昆高速一货车起火",
+        "特朗普称向格陵兰派遣医疗船 丹麦回应不需要"
+      ],
+      "category": "时事",
+      "sparkline": [
+        6,
+        6,
+        6
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "下跌",
+      "heat_score": 6.62,
+      "frequency": 6,
+      "acceleration": 0.0,
+      "source_diversity": 3,
+      "engagement": 0.030348590928724068,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "toutiao",
+        "36kr",
+        "sina"
+      ],
+      "related_titles": [
+        "分析师：关税不确定性再度升温，比特币承压下跌",
+        "比特币价格为何瀑布式下跌",
+        "欧洲股市下跌 欧盟势将冻结对与美国贸易协定的批准程序"
+      ],
+      "category": "时事",
+      "sparkline": [
+        6,
+        6,
+        6
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "经历",
+      "heat_score": 6.45,
+      "frequency": 5,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 1.0,
+      "is_burst": false,
+      "burst_z_score": -0.7071067811865474,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "xiaohongshu",
+        "bilibili"
+      ],
+      "related_titles": [
+        "说出你拉肚子的经历，让我心里好受点",
+        "这个纪录片女主十年后的经历让人好感动！"
+      ],
+      "category": "时事",
+      "sparkline": [
+        9,
+        5,
+        5,
+        5
+      ],
+      "first_seen": "2026-02-23T14:05:47.829250+00:00",
+      "peak_time": "2026-02-23T14:05:47.829250+00:00"
+    },
+    {
+      "keyword": "drug",
+      "heat_score": 6.36,
+      "frequency": 9,
+      "acceleration": 0.0,
+      "source_diversity": 1,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "news"
+      ],
+      "related_titles": [
+        "Duterte refuses to attend ICC pre-trial hearing, as former Philippine leader’s ‘drug war’ case begins",
+        "Novo Nordisk sinks 15% after weight loss drug fails to match Eli Lilly's in trial",
+        "Cartel henchmen unleash violence after top drug lord killed in Mexico",
+        "Novo Nordisk pitted a new weight-loss drug against Eli Lilly’s — and lost",
+        "Killing of Mexican drug cartel boss ‘El Mencho’ sparks wave of violence"
+      ],
+      "category": "时事",
+      "sparkline": [
+        9,
+        9,
+        9
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "關稅",
+      "heat_score": 6.36,
+      "frequency": 9,
+      "acceleration": 0.0,
+      "source_diversity": 1,
+      "engagement": 0.0,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "news"
+      ],
+      "related_titles": [
+        "特朗普關稅變動後，企業與消費者面臨不確定性",
+        "關稅裁決如何嚴重打擊了特朗普第二任期議程",
+        "一文讀懂特朗普最新關稅措施：他宣佈的最新全球關稅將如何運作？"
+      ],
+      "category": "时事",
+      "sparkline": [
+        9,
+        9,
+        9
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "车辆",
+      "heat_score": 6.2,
+      "frequency": 7,
+      "acceleration": 0.0,
+      "source_diversity": 2,
+      "engagement": 0.022123692293580275,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "→",
+      "platforms": [
+        "baidu",
+        "36kr"
+      ],
+      "related_titles": [
+        "问界汽车回应惠州车辆起火",
+        "问界通报广东惠州车辆起火事件：非车辆自身原因导致",
+        "问界通报广东惠州车辆起火事件：非车辆自身原因导致"
+      ],
+      "category": "时事",
+      "sparkline": [
+        7,
+        7,
+        7
+      ],
+      "first_seen": "2026-02-23T14:09:08.904144+00:00",
+      "peak_time": "2026-02-23T14:09:08.904144+00:00"
+    },
+    {
+      "keyword": "职场",
+      "heat_score": 6.18,
+      "frequency": 7,
+      "acceleration": -3.0,
+      "source_diversity": 2,
+      "engagement": 0.033291359224278026,
+      "is_burst": false,
+      "burst_z_score": 0.0,
+      "macd_signal": "neutral",
+      "macd_value": 0.0,
+      "trend_direction": "↘",
+      "platforms": [
+        "xiaohongshu",
+        "bilibili"
+      ],
+      "related_titles": [
+        "日本职场吐槽",
+        "97男孩年初入职场",
+        "职场新人如何建立自信？"
+      ],
+      "category": "时事",
+      "sparkline": [
+        10,
+        7
+      ],
+      "first_seen": "2026-02-23T14:05:47.829250+00:00",
+      "peak_time": "2026-02-23T14:05:47.829250+00:00"
+    }
+  ]
+}
